@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <h2>Transfer</h2>
+    url: <a href="{{ transfer.website }}">{{ transfer.website }}</a><br/>
+    picture: <img src="/media/{{ transfer.picture }}" alt="picture">
+    <a download="{{ transfer.picture }}" href="/media/{{ transfer.picture }}" title="{{ transfer.picture }}">Download</a>
+{% endblock %}
