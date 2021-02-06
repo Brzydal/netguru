@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, FormView
 
@@ -5,17 +6,26 @@ from transfer.forms import PasswordForm
 from transfer.models import Transfer
 
 
-class TransferDetail(DetailView):
-    model = Transfer
-    context_object_name = 'transfer'
-    slug_field = "url_hash"
-    slug_url_kwarg = "url_hash"
-
-
-class TransferCreate(CreateView):
+class TransferCreate(LoginRequiredMixin, CreateView):
     model = Transfer
     template_name = 'transfer/transfer_create_form.html'
     fields = ['website', 'picture']
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
+
+
+class TransferDetail(LoginRequiredMixin, DetailView):
+    model = Transfer
+    context_object_name = 'transfer'
+
+    def get_object(self):
+        return get_object_or_404(
+            self.model,
+            url_hash=self.kwargs['url_hash'],
+            created_by=self.request.user
+        )
 
 
 class TransferPassword(FormView):
@@ -35,6 +45,7 @@ class TransferPassword(FormView):
             transfer.update_counter()
             return redirect('transfer-download', url_hash=url_hash, url_password=password)
         else:
+            form.add_error('password', "Incorrect password")
             return self.form_invalid(form)
 
 

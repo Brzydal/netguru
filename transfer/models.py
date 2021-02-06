@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
@@ -19,9 +20,12 @@ class Transfer(TimeStampMixin):
     url_hash = models.CharField(max_length=32, default=create_hash, unique=True)
     url_password = models.CharField(max_length=8, default=create_password)
     correct_password_counter = models.IntegerField(default=0)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, unique=False, null=True, blank=True, on_delete=models.SET_NULL
+    )
 
     def __str__(self):
-        return f'{self.id}-{self.website}-{True if self.picture else False}'
+        return self.id
 
     def get_absolute_url(self):
         return reverse('transfer-detail', kwargs={'url_hash': self.url_hash})
@@ -32,3 +36,9 @@ class Transfer(TimeStampMixin):
     def update_counter(self):
         self.correct_password_counter += 1
         self.save()
+
+
+class UserAgent(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user_agent = models.CharField(max_length=100)
+

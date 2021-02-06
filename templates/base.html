@@ -9,6 +9,8 @@
 </head>
 <body>
   <main>
+    <a href="{% url 'login' %}" class="nav-link">Login</a>
+    <a href="{% url 'logout' %}" class="nav-link">Logout</a>
     {% block content %}
     {% endblock %}
   </main>
