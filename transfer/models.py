@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from netguru.utils import create_hash, create_password
 
@@ -20,3 +21,6 @@ class Transfer(TimeStampMixin):
 
     def __str__(self):
         return f'{self.id}-{self.website}-{True if self.picture else False}'
+
+    def get_absolute_url(self):
+        return reverse('transfer-detail', kwargs={'url_hash': self.url_hash})

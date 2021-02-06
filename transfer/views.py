@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from transfer.models import Transfer
 
 
@@ -12,3 +12,8 @@ class TransferDetail(DetailView):
     context_object_name = 'transfer'
     slug_field = "url_hash"
     slug_url_kwarg = "url_hash"
+
+
+class TransferCreate(CreateView):
+    model = Transfer
+    fields = ['website', 'picture']
