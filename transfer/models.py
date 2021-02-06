@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
@@ -24,3 +25,10 @@ class Transfer(TimeStampMixin):
 
     def get_absolute_url(self):
         return reverse('transfer-detail', kwargs={'url_hash': self.url_hash})
+
+    def get_password_url(self):
+        return settings.DOMAIN + reverse('transfer-password', kwargs={'url_hash': self.url_hash})
+
+    def update_counter(self):
+        self.correct_password_counter += 1
+        self.save()

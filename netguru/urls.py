@@ -20,14 +20,14 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, include
 from django.views.generic import TemplateView
 
-from transfer.views import TransferList, TransferDetail, TransferCreate
+from transfer.views import TransferDetail, TransferCreate, TransferPassword, TransferDownload
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', TemplateView.as_view(template_name='home.html'), name='home'),
-    path('transfers/', TransferList.as_view(), name='transfer-list'),
     path('transfer/create/', TransferCreate.as_view(), name='transfer-create'),
+    path('transfer/password/<slug:url_hash>', TransferPassword.as_view(), name='transfer-password'),
+    path('transfer/download/<slug:url_hash>/<slug:url_password>', TransferDownload.as_view(), name='transfer-download'),
     path('transfer/<slug:url_hash>/', TransferDetail.as_view(), name='transfer-detail'),
 ]
 

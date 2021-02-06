@@ -2,7 +2,6 @@
 
 {% block content %}
     <h2>Transfer</h2>
-    url: <a href="{{ transfer.website }}">{{ transfer.website }}</a><br/>
-    picture: <img src="/media/{{ transfer.picture }}" alt="picture">
-    <a download="{{ transfer.picture }}" href="/media/{{ transfer.picture }}" title="{{ transfer.picture }}">Download</a>
+    download_link: {{ transfer.get_password_url}}<br/>
+    password: {{ transfer.url_password }}<br/>
 {% endblock %}
