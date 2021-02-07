@@ -33,6 +33,7 @@ urlpatterns = [
     path('transfer/invalid', TemplateView.as_view(
         template_name='transfer/transfer_invalid.html'), name='transfer-invalid'
          ),
+    path('api/', include('transfer.api.urls'))
 ]
 
 if settings.DEBUG:
