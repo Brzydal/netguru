@@ -36,6 +36,9 @@ class Transfer(TimeStampMixin):
     def get_password_url(self):
         return settings.DOMAIN + reverse('transfer-password', kwargs={'url_hash': self.url_hash})
 
+    def get_picture_url(self):
+        return f'{settings.DOMAIN}/media/{self.picture}'
+
     def update_counter(self):
         self.correct_password_counter += 1
         self.save()
