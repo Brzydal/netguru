@@ -33,6 +33,13 @@ class TransferPassword(FormView):
     form_class = PasswordForm
     success_url = 'thanks'
 
+    def get(self, request, *args, **kwargs):
+        url_hash = self.kwargs['url_hash']
+        transfer = Transfer.objects.get(url_hash=url_hash)
+        if not transfer.is_valid():
+            return redirect('transfer-invalid')
+        return super().get(request, *args, **kwargs)
+
     def form_valid(self, form):
         password = form.cleaned_data['password']
         url_hash = self.kwargs['url_hash']
@@ -53,6 +60,12 @@ class TransferDownload(DetailView):
     model = Transfer
     template_name = 'transfer/transfer_download.html'
     context_object_name = 'transfer'
+
+    def get(self, request, *args, **kwargs):
+        transfer = self.get_object()
+        if not transfer.is_valid():
+            return redirect('transfer-invalid')
+        return super().get(request, *args, **kwargs)
 
     def get_object(self):
         return get_object_or_404(

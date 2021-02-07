@@ -10,12 +10,12 @@ class TransferAdmin(admin.ModelAdmin):
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
 
-    list_display = ('id', 'picture', 'website', 'url_hash', 'correct_password_counter', 'created_by')
-    list_filter = ('created', 'modified', 'created_by')
+    list_display = ['id', 'picture', 'website', 'url_hash', 'correct_password_counter', 'created_by']
+    list_filter = ['created', 'modified', 'created_by']
     readonly_fields = ['picture', 'website', 'url_hash', 'correct_password_counter', 'created_by']
 
 
 @admin.register(UserAgent)
 class UserAgentAdmin(admin.ModelAdmin):
-    list_display = ('user', 'user_agent')
+    list_display = ['user', 'user_agent']
     readonly_fields = ['user', 'user_agent']

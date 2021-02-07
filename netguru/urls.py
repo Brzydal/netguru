@@ -30,6 +30,9 @@ urlpatterns = [
     path('transfer/password/<slug:url_hash>', TransferPassword.as_view(), name='transfer-password'),
     path('transfer/download/<slug:url_hash>/<slug:url_password>', TransferDownload.as_view(), name='transfer-download'),
     path('transfer/<slug:url_hash>/', TransferDetail.as_view(), name='transfer-detail'),
+    path('transfer/invalid', TemplateView.as_view(
+        template_name='transfer/transfer_invalid.html'), name='transfer-invalid'
+         ),
 ]
 
 if settings.DEBUG:

@@ -1,7 +1,10 @@
+import datetime
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
+from django.utils.timezone import now
 
 from netguru.utils import create_hash, create_password
 
@@ -36,6 +39,9 @@ class Transfer(TimeStampMixin):
     def update_counter(self):
         self.correct_password_counter += 1
         self.save()
+
+    def is_valid(self):
+        return self.created + datetime.timedelta(days=1) > now()
 
 
 class UserAgent(models.Model):
