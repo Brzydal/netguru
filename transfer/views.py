@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import ListView, DetailView, CreateView, FormView
+from django.views.generic import DetailView, CreateView, FormView
 
 from transfer.forms import PasswordForm
 from transfer.models import Transfer
