@@ -28,7 +28,7 @@ class Transfer(TimeStampMixin):
     )
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
     def get_absolute_url(self):
         return reverse('transfer-detail', kwargs={'url_hash': self.url_hash})

@@ -31,3 +31,30 @@ python manage.py runserver
 ```
 
 5. Go to http://localhost:8000 and enjoy...
+
+## Users
+
+### Create first user by command
+```python
+python manage.py createsuperuser
+```
+
+#### Other users You can create in the same way or use Django Admin
+
+ - Login URL: http://localhost:8000/accounts/login/
+ - Logout URL: http://localhost:8000/accounts/logout/
+ - Home URL:http://localhost:8000/
+ 
+## Tests
+
+### You can run test with command
+```python
+python manage.py test
+```
+
+## Admin
+
+### Transfers can be managed from Django admin
+
+ - Transfers URL: http://localhost:8000/admin/transfer/transfer/
+ - User Agent URL : http://localhost:8000/admin/transfer/useragent/
