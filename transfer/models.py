@@ -10,8 +10,9 @@ from netguru.utils import create_hash, create_password
 
 
 class TimeStampMixin(models.Model):
-    created = models.DateTimeField(auto_now_add=True, editable=False)
+    created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
+    date = models.DateField(auto_now=True)
 
     class Meta:
         abstract = True

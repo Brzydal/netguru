@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from django.http import HttpResponseRedirect
 from rest_framework.exceptions import ParseError
 from rest_framework.generics import CreateAPIView, GenericAPIView, get_object_or_404
@@ -34,3 +36,31 @@ class TransferDownloadAPIView(GenericAPIView):
             return HttpResponseRedirect(redirect_to=transfer.website)
         serializer = TransferDownloadSerializer(transfer)
         return Response(serializer.data)
+
+
+class TransferStatisticsAPIView(GenericAPIView):
+    queryset = Transfer.objects.exclude(correct_password_counter=0).order_by('-date')
+    permission_classes = [IsAuthenticated]
+
+    def _get_serialized_items(self, input):
+        result = OrderedDict()
+        for item in input:
+            if result.get(str(item.date)):
+                result[str(item.date)] = {
+                    "files": 1 if item.picture else result.get(str(item.date)).get('files'),
+                    "links": 1 if item.website else result.get(str(item.date)).get('links')
+                }
+            else:
+                result[str(item.date)] = {
+                    "files": 1 if item.picture else 0,
+                    "links": 1 if item.website else 0
+                }
+        return result
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            return self.get_paginated_response(self._get_serialized_items(page))
+
+        return Response(self._get_serialized_items(queryset))

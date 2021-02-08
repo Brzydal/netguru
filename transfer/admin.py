@@ -12,7 +12,7 @@ class TransferAdmin(admin.ModelAdmin):
 
     list_display = ['id', 'picture', 'website', 'url_hash', 'correct_password_counter', 'created_by', 'is_valid']
     list_filter = ['created', 'modified', 'created_by']
-    readonly_fields = ['picture', 'website', 'url_hash', 'correct_password_counter', 'created_by', 'is_valid']
+    readonly_fields = ['picture', 'website', 'url_hash', 'correct_password_counter', 'created_by']
 
 
 @admin.register(UserAgent)
