@@ -30,9 +30,9 @@ class TransferDownloadAPIView(GenericAPIView):
         )
         transfer.update_counter()
 
-        if kwargs['option'] == 'picture':
+        if transfer.picture:
             return HttpResponseRedirect(redirect_to=transfer.get_picture_url())
-        if kwargs['option'] == 'website':
+        if transfer.website:
             return HttpResponseRedirect(redirect_to=transfer.website)
         serializer = TransferDownloadSerializer(transfer)
         return Response(serializer.data)

@@ -50,6 +50,10 @@ class TransferPassword(FormView):
 
         if transfer:
             transfer.update_counter()
+            if transfer.picture:
+                return redirect(to=transfer.get_picture_url())
+            if transfer.website:
+                return redirect(to=transfer.website)
             return redirect('transfer-download', url_hash=url_hash, url_password=password)
         else:
             form.add_error('password', "Incorrect password")

@@ -5,6 +5,8 @@ from transfer.models import Transfer
 
 
 class TransferSerializer(serializers.ModelSerializer):
+    url_hash = serializers.SerializerMethodField()
+
     def create(self, validated_data):
         user = self.context['request'].user
         transfer = Transfer.objects.create(
@@ -18,10 +20,13 @@ class TransferSerializer(serializers.ModelSerializer):
             raise ValidationError("Only one of the fields should be filled in.")
         return attrs
 
+    def get_url_hash(self, obj):
+        return obj.get_api_url()
+
     class Meta:
         model = Transfer
-        fields = ['picture', 'website', 'url_hash', 'url_password', 'is_valid']
-        read_only_fields = ['url_hash', 'url_password', 'is_valid']
+        fields = ['picture', 'website', 'url_hash', 'url_password']
+        read_only_fields = ['url_hash', 'url_password']
 
 
 class TransferPasswordSerializer(serializers.ModelSerializer):

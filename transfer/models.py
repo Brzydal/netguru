@@ -40,6 +40,9 @@ class Transfer(TimeStampMixin):
     def get_picture_url(self):
         return f'{settings.DOMAIN}/media/{self.picture}'
 
+    def get_api_url(self):
+        return f'{settings.DOMAIN}/api/download/{self.url_hash}'
+
     def update_counter(self):
         self.correct_password_counter += 1
         self.save()
