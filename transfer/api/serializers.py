@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
 from transfer.models import Transfer
 
@@ -11,6 +12,11 @@ class TransferSerializer(serializers.ModelSerializer):
             **validated_data
         )
         return transfer
+
+    def validate(self, attrs):
+        if attrs.get('website') and attrs.get('picture'):
+            raise ValidationError("Only one of the fields should be filled in.")
+        return attrs
 
     class Meta:
         model = Transfer

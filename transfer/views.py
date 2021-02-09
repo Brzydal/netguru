@@ -2,14 +2,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import DetailView, CreateView, FormView
 
-from transfer.forms import PasswordForm
+from transfer.forms import PasswordForm, TransferCreateForm
 from transfer.models import Transfer
 
 
 class TransferCreate(LoginRequiredMixin, CreateView):
     model = Transfer
+    form_class = TransferCreateForm
     template_name = 'transfer/transfer_create_form.html'
-    fields = ['website', 'picture']
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user

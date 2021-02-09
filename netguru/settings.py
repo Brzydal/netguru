@@ -13,18 +13,20 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+import dj_database_url
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '3sc5jk81p@w&dq2@b8_m$m1ec$yy==&)q4emu5&k4ln()!_ard'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'not-so-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.environ.get('DEBUG', default=1))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -82,6 +84,10 @@ DATABASES = {
     }
 }
 
+DATABASE_URL = os.environ.get('DATABASE_URL')
+db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
+DATABASES['default'].update(db_from_env)
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -125,7 +131,7 @@ MEDIA_URL = '/media/'
 if DEBUG:
     DOMAIN = 'http://localhost:8000'
 else:
-    DOMAIN = 'http://some_domain'
+    DOMAIN = 'https://netguru-transfer.herokuapp.com'
 
 LOGIN_REDIRECT_URL = DOMAIN + '/transfer/create/'
 
