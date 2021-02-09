@@ -58,3 +58,11 @@ python manage.py test
 
  - Transfers URL: http://localhost:8000/admin/transfer/transfer/
  - User Agent URL : http://localhost:8000/admin/transfer/useragent/
+
+
+## API
+
+### You can also use system via API provided
+
+ - Transfer CreateURL: http://localhost:8000/api/create/
+ - Statistics URL : http://localhost:8000/api/statistics/
