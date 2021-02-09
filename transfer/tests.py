@@ -3,6 +3,7 @@ from random import randint
 
 from django.conf import settings
 from django.test import TestCase
+from django.urls import reverse
 from django.utils.timezone import now
 
 from netguru.utils import create_hash, create_password
@@ -20,7 +21,7 @@ class UtilsTestCase(TestCase):
         self.assertEqual(len(some_password), 8)
 
 
-class TransferTestCase(TestCase):
+class TransferModelTestCase(TestCase):
 
     def setUp(self):
         two_days_ago = now() + datetime.timedelta(days=-2)
@@ -58,3 +59,29 @@ class TransferTestCase(TestCase):
         for i in range(counter):
             transfer.update_counter()
         self.assertEquals(transfer.correct_password_counter, counter)
+
+
+class TransferRequestsTestCase(TestCase):
+
+    def setUp(self):
+        Transfer.objects.create(website="http://www.netguru.com")
+
+    def test_redirected_from_transfer_create_when_not_logged_in(self):
+        response = self.client.get(reverse('transfer-create'))
+        self.assertRedirects(response, '/accounts/login/?next=/transfer/create/')
+
+    def test_no_redirected_from_transfer_password_when_incorrect_password(self):
+        transfer_in = Transfer.objects.first()
+        response = self.client.post(reverse('transfer-password', kwargs={'url_hash': transfer_in.url_hash}),
+                                    {'password': 'wrong_password'})
+        transfer_out = Transfer.objects.first()
+        self.assertEquals(transfer_out.correct_password_counter, 0)
+
+    def test_redirected_from_transfer_password_when_correct_password(self):
+        transfer_in = Transfer.objects.first()
+        response = self.client.post(reverse('transfer-password', kwargs={'url_hash': transfer_in.url_hash}),
+                                    {'password': transfer_in.url_password})
+        self.assertRedirects(response, 'http://www.netguru.com')
+        transfer_out = Transfer.objects.first()
+        self.assertEquals(transfer_out.correct_password_counter, 1)
+
