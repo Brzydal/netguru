@@ -2,6 +2,6 @@
 
 {% block content %}
     <h2>Transfer</h2>
-    download_link: {{ transfer.get_password_url}}<br/>
+    download_link: <a href="{{ transfer.get_password_url}}">{{ transfer.get_password_url}}</a><br/>
     password: {{ transfer.url_password }}<br/>
 {% endblock %}
