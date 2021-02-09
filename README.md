@@ -66,3 +66,8 @@ python manage.py test
 
  - Transfer CreateURL: http://localhost:8000/api/create/
  - Statistics URL : http://localhost:8000/api/statistics/
+
+## HEROKU
+
+### App has also been deployed to Heroku
+ - Heroku URL: https://netguru-transfer.herokuapp.com/
