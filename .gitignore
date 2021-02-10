@@ -133,3 +133,4 @@ dmypy.json
 
 media/
 postgres_data/
+staticfiles/
