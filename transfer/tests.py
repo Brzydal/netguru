@@ -53,13 +53,6 @@ class TransferModelTestCase(TestCase):
             f'{settings.DOMAIN}/transfer/password/{transfer.url_hash}', transfer.get_password_url()
         )
 
-    def test_picture_url(self):
-        """Check if get_picture_url return correct value"""
-        transfer = Transfer.objects.get(website="www.test_valid.com")
-        self.assertEquals(
-            f'{settings.DOMAIN}/media/', transfer.get_picture_url(),
-        )
-
     def test_get_api_url(self):
         """Check if get_api_url return correct value"""
         transfer = Transfer.objects.get(website="www.test_valid.com")
