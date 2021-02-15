@@ -38,7 +38,7 @@ class Transfer(TimeStampMixin):
         return settings.DOMAIN + reverse('transfer-password', kwargs={'url_hash': self.url_hash})
 
     def get_picture_url(self):
-        return f'{settings.DOMAIN}/media/{self.picture}'
+        return self.picture.url
 
     def get_api_url(self):
         return f'{settings.DOMAIN}/api/download/{self.url_hash}'
